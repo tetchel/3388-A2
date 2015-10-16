@@ -18,7 +18,7 @@
 
 #define Gx 0.0
 #define Gy 0.0
-#define Gz 0.0
+#define Gz 15.0
 
 #define UPx 0.0
 #define UPy 0.0
@@ -257,10 +257,10 @@ void renderWiremesh(Display* d, Window* w, int* s, camera_t* Camera) {
         p2 = *projection_transform(dmat_mult(&(Camera->M),&p2));
         p3 = *projection_transform(dmat_mult(&(Camera->M),&p3));
 
-        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p1.m[1][1],(int)p1.m[2][1]);
-        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p2.m[1][1],(int)p2.m[2][1]);
-        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p3.m[1][1],(int)p3.m[2][1]);
-//        XDrawLine(d,*w,DefaultGC(d,*s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p2.m[1][1], (int)p2.m[2][1]) ;
+//        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p1.m[1][1],(int)p1.m[2][1]);
+//        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p2.m[1][1],(int)p2.m[2][1]);
+//        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p3.m[1][1],(int)p3.m[2][1]);
+        XDrawLine(d,*w,DefaultGC(d,*s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p2.m[1][1], (int)p2.m[2][1]) ;
 //        XDrawLine(d,*w,DefaultGC(d,*s),(int)p2.m[1][1],(int)p2.m[2][1],(int)p3.m[1][1], (int)p3.m[2][1]) ;
 //        XDrawLine(d,*w,DefaultGC(d,*s),(int)p3.m[1][1],(int)p3.m[2][1],(int)p1.m[1][1], (int)p1.m[2][1]) ;
     }
@@ -330,14 +330,16 @@ int main() {
 
             renderWiremesh(d, &w, &s, &Camera);
         }
-        if (e.type == KeyPress)
+        if (e.type == KeyPress) {
             //causes the program to exit when 'q' is pressed
         	char c[255];
         	KeySym key;
+        	//gives a warning (implicit declaration of XLookupString), but it works
         	if(XLookupString(&e.xkey, c, 255, &key)) {
         		if(c[0] == 'q')
         			break;
         	}
+        }
         if (e.type == ClientMessage)
             break ;
     }

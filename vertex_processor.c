@@ -49,7 +49,7 @@ void readVertices() {
     num_rotations = 360/rotation;
 
     //reserve memory for vertices[0]
-    vertices = malloc((NUM_VERTEX+1)*sizeof(vertex));
+    vertices = malloc(NUM_VERTEX*sizeof(vertex));
     //make sure it succeeded
     if(!vertices)
         printf("Malloc error! 1\n");
@@ -134,8 +134,7 @@ void storePolygons() {
     }
 
     //loop through 2d array and print each vertex
-//    for(i = 0; i < num_rotations; i++) {
-        i = 0;
+    for(i = 0; i < num_rotations; i++) {
         for(j = 0; j < NUM_VERTEX-1; j++) {
             //print each vertex, counterclockwise
             printVertex(fp, &vertices[i][j]);
@@ -149,7 +148,7 @@ void storePolygons() {
             printVertex(fp, &vertices[(i+1)%num_rotations][j]);
             fprintf(fp, "\n");
         }
-//    }
+    }
 
     fclose(fp);
 }
