@@ -6,11 +6,13 @@
 #include <stdlib.h>
 #include <math.h>
 
+#define SOURCEFILE "vase.txt"
+
 typedef struct {
     double x, y, z, w;
 } vertex;
 
-char* vertexProcessor();
+int vertexProcessor(char*, char*, int);
 void readVertices();
 void rotateVertices();
 void storePolygons();

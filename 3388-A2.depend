@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1444929219 source:/home/tim/programs/3388/3388-A2/CS3388-Assignment-2-Test.c
+1445030393 source:/home/tim/programs/3388/3388-A2/CS3388-Assignment-2-Test.c
 	<X11/Xlib.h>
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	"matrix.h"
+	"vertex_processor.h"
 
-1444928859 /home/tim/programs/3388/3388-A2/matrix.h
+1445023784 /home/tim/programs/3388/3388-A2/matrix.h
 	"nr.h"
 	<math.h>
 
@@ -40,5 +41,13 @@
 	<math.h>
 
 1445017176 source:/home/tim/programs/c_cpp/3388-A2/3388-A2/vertex_processor.c
+	"vertex_processor.h"
+
+1445029545 /home/tim/programs/3388/3388-A2/vertex_processor.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1445030329 source:/home/tim/programs/3388/3388-A2/vertex_processor.c
 	"vertex_processor.h"
 

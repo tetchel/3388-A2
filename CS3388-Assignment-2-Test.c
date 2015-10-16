@@ -1,8 +1,10 @@
-/*            PURPOSE : Synthetic camera framework.
-
- PREREQUISITES : matrix.h
-
- */
+/**
+*   CS3388-Assignment-2-Test
+*   Author Steven Beauchemin/Tim Etchells (drawWiremesh function)
+*   For October 16, 2015
+*   CS3388 Assignment 2
+*   This file handles all of the drawing of the wiremesh to the screen, as well as the synthetic camera framework which enables drawing 3D objects in X11.
+**/
 
 #define _GNU_SOURCE
 #include <X11/Xlib.h>
@@ -225,19 +227,19 @@ camera_t *build_camera(camera_t *Camera, window_t *Window) {
     return(Camera) ;
 }
 
-void renderWiremesh(Display* d, Window* w, int* s, camera_t* Camera) {
-    int num_polys;
-    char* polyfile_name = vertexProcessor(&num_polys);
-    FILE* fp = fopen(polyfile_name, "r");
+#define VASEFILE "vase.txt"
+#define POLYFILE "polys.txt"
+void drawWiremesh(Display* d, Window* w, int* s, camera_t* Camera) {
+    int num_polys = vertexProcessor(VASEFILE, POLYFILE, 26);
+    FILE* fp = fopen(POLYFILE, "r");
 
     if(!fp) {
-        printf("Couldn't open %s\n", polyfile_name);
+        printf("Couldn't open %s\n", POLYFILE);
         exit(EXIT_FAILURE);
     }
 
     int i;
     for(i = 0; i < num_polys; i++) {
-
         dmatrix_t p1, p2, p3;
         dmat_alloc(&p1,4,1);
         dmat_alloc(&p2,4,1);
@@ -257,12 +259,9 @@ void renderWiremesh(Display* d, Window* w, int* s, camera_t* Camera) {
         p2 = *projection_transform(dmat_mult(&(Camera->M),&p2));
         p3 = *projection_transform(dmat_mult(&(Camera->M),&p3));
 
-//        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p1.m[1][1],(int)p1.m[2][1]);
-//        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p2.m[1][1],(int)p2.m[2][1]);
-//        XDrawPoint(d, *w, DefaultGC(d,*s), (int)p3.m[1][1],(int)p3.m[2][1]);
         XDrawLine(d,*w,DefaultGC(d,*s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p2.m[1][1], (int)p2.m[2][1]) ;
-//        XDrawLine(d,*w,DefaultGC(d,*s),(int)p2.m[1][1],(int)p2.m[2][1],(int)p3.m[1][1], (int)p3.m[2][1]) ;
-//        XDrawLine(d,*w,DefaultGC(d,*s),(int)p3.m[1][1],(int)p3.m[2][1],(int)p1.m[1][1], (int)p1.m[2][1]) ;
+        XDrawLine(d,*w,DefaultGC(d,*s),(int)p2.m[1][1],(int)p2.m[2][1],(int)p3.m[1][1], (int)p3.m[2][1]) ;
+        XDrawLine(d,*w,DefaultGC(d,*s),(int)p3.m[1][1],(int)p3.m[2][1],(int)p1.m[1][1], (int)p1.m[2][1]) ;
     }
     fclose(fp);
 }
@@ -317,18 +316,7 @@ int main() {
     while (1) {
         XNextEvent(d,&e) ;
         if (e.type == Expose) {
-            p1 = *projection_transform(dmat_mult(&(Camera.M),&p1)) ;
-            p2 = *projection_transform(dmat_mult(&(Camera.M),&p2)) ;
-            p3 = *projection_transform(dmat_mult(&(Camera.M),&p3)) ;
-            p4 = *projection_transform(dmat_mult(&(Camera.M),&p4)) ;
-
-            XDrawLine(d,w,DefaultGC(d,s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p2.m[1][1],p2.m[2][1]) ;
-
-            XDrawLine(d,w,DefaultGC(d,s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p3.m[1][1],p3.m[2][1]) ;
-
-            XDrawLine(d,w,DefaultGC(d,s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p4.m[1][1],p4.m[2][1]) ;
-
-            renderWiremesh(d, &w, &s, &Camera);
+            drawWiremesh(d, &w, &s, &Camera);
         }
         if (e.type == KeyPress) {
             //causes the program to exit when 'q' is pressed
