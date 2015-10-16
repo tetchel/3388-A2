@@ -1,6 +1,6 @@
-/*            PURPOSE : Matrix and vector memory allocation and mathematical operations. 
+/*            PURPOSE : Matrix and vector memory allocation and mathematical operations.
 
-        PREREQUISITES : nr.h 
+        PREREQUISITES : nr.h
 
 */
 
@@ -57,7 +57,7 @@ void ivec_alloc(ivector_t *V, int l)
 }
 
 
-void mat_alloc(matrix_t *A, int l, int c) 
+void mat_alloc(matrix_t *A, int l, int c)
 
 { (*A).m = matrix(1,l,1,c) ;
   (*A).l = l ;
@@ -65,7 +65,7 @@ void mat_alloc(matrix_t *A, int l, int c)
 }
 
 
-void dmat_alloc(dmatrix_t *A, int l, int c) 
+void dmat_alloc(dmatrix_t *A, int l, int c)
 
 { (*A).m = dmatrix(1,l,1,c) ;
   (*A).l = l ;
@@ -73,7 +73,7 @@ void dmat_alloc(dmatrix_t *A, int l, int c)
 }
 
 
-void imat_alloc(imatrix_t *A, int l, int c) 
+void imat_alloc(imatrix_t *A, int l, int c)
 
 { (*A).m = imatrix(1,l,1,c) ;
   (*A).l = l ;
@@ -81,63 +81,46 @@ void imat_alloc(imatrix_t *A, int l, int c)
 }
 
 
-matrix_t *mat_init(matrix_t *A, float a) 
+matrix_t *mat_init(matrix_t *A, float a)
 
 { int i, j ;
 
   for (i = 1 ; i <= (*A).l ; i++) {
     for (j = 1 ; j <= (*A).c ; j++) {
-      (*A).m[i][j] = a ; 
+      (*A).m[i][j] = a ;
     }
   }
   return(A) ;
 }
 
 
-dmatrix_t *dmat_init(dmatrix_t *A, double a) 
+dmatrix_t *dmat_init(dmatrix_t *A, double a)
 
 { int i, j ;
 
   for (i = 1 ; i <= (*A).l ; i++) {
     for (j = 1 ; j <= (*A).c ; j++) {
-      (*A).m[i][j] = a ; 
+      (*A).m[i][j] = a ;
     }
   }
   return(A) ;
 }
 
 
-imatrix_t *imat_init(imatrix_t *A, int a) 
+imatrix_t *imat_init(imatrix_t *A, int a)
 
 { int i, j ;
 
   for (i = 1 ; i <= (*A).l ; i++) {
     for (j = 1 ; j <= (*A).c ; j++) {
-      (*A).m[i][j] = a ; 
+      (*A).m[i][j] = a ;
     }
   }
   return(A) ;
 }
 
 
-matrix_t *mat_identity(matrix_t *A) 
-
-{ int i, j ;
-
-  for (i = 1 ; i <= (*A).l ; i++) {
-    for (j = 1 ; j <= (*A).c ; j++) {
-      if (i == j) {
-        (*A).m[i][j] = 1.0 ;
-      }
-      else {
-        (*A).m[i][j] = 0.0 ; 
-      }
-    }
-  }
-  return(A) ;
-}
-
-dmatrix_t *dmat_identity(dmatrix_t *A) 
+matrix_t *mat_identity(matrix_t *A)
 
 { int i, j ;
 
@@ -147,7 +130,24 @@ dmatrix_t *dmat_identity(dmatrix_t *A)
         (*A).m[i][j] = 1.0 ;
       }
       else {
-        (*A).m[i][j] = 0.0 ; 
+        (*A).m[i][j] = 0.0 ;
+      }
+    }
+  }
+  return(A) ;
+}
+
+dmatrix_t *dmat_identity(dmatrix_t *A)
+
+{ int i, j ;
+
+  for (i = 1 ; i <= (*A).l ; i++) {
+    for (j = 1 ; j <= (*A).c ; j++) {
+      if (i == j) {
+        (*A).m[i][j] = 1.0 ;
+      }
+      else {
+        (*A).m[i][j] = 0.0 ;
       }
     }
   }
@@ -155,7 +155,7 @@ dmatrix_t *dmat_identity(dmatrix_t *A)
 }
 
 
-imatrix_t *imat_identity(imatrix_t *A) 
+imatrix_t *imat_identity(imatrix_t *A)
 
 { int i, j ;
 
@@ -165,7 +165,7 @@ imatrix_t *imat_identity(imatrix_t *A)
         (*A).m[i][j] = 1 ;
       }
       else {
-        (*A).m[i][j] = 0 ; 
+        (*A).m[i][j] = 0 ;
       }
     }
   }
@@ -173,7 +173,7 @@ imatrix_t *imat_identity(imatrix_t *A)
 }
 
 
-matrix_t *mat_mult(matrix_t *A, matrix_t *B) 
+matrix_t *mat_mult(matrix_t *A, matrix_t *B)
 
 { matrix_t *C ;
   float s ;
@@ -197,7 +197,7 @@ matrix_t *mat_mult(matrix_t *A, matrix_t *B)
 }
 
 
-dmatrix_t *dmat_mult(dmatrix_t *A, dmatrix_t *B) 
+dmatrix_t *dmat_mult(dmatrix_t *A, dmatrix_t *B)
 
 { dmatrix_t *C ;
   double s ;
@@ -221,7 +221,7 @@ dmatrix_t *dmat_mult(dmatrix_t *A, dmatrix_t *B)
 }
 
 
-imatrix_t *imat_mult(imatrix_t *A, imatrix_t *B) 
+imatrix_t *imat_mult(imatrix_t *A, imatrix_t *B)
 
 { imatrix_t *C ;
   int s ;
@@ -245,16 +245,16 @@ imatrix_t *imat_mult(imatrix_t *A, imatrix_t *B)
 }
 
 
-matrix_t *mat_add(matrix_t *A, matrix_t *B) 
+matrix_t *mat_add(matrix_t *A, matrix_t *B)
 
 { matrix_t *C ;
-  float s ;
+//  float s ;
   int i, j ;
 
   if ((*A).l != (*B).l || (*A).c != (*B).c) {
     nrerror("MATRIX.H: incompatible matrix sizes") ;
   }
-  C = (matrix_t *)malloc(sizeof(matrix_t)) ;  
+  C = (matrix_t *)malloc(sizeof(matrix_t)) ;
   mat_alloc(C,(*A).l,(*A).c) ;
 
   for (i = 1 ; i <= (*C).l ; i++) {
@@ -266,10 +266,10 @@ matrix_t *mat_add(matrix_t *A, matrix_t *B)
 }
 
 
-dmatrix_t *dmat_add(dmatrix_t *A, dmatrix_t *B) 
+dmatrix_t *dmat_add(dmatrix_t *A, dmatrix_t *B)
 
 { dmatrix_t *C ;
-  double s ;
+//  double s ;
   int i, j ;
 
   if ((*A).l != (*B).l || (*A).c != (*B).c) {
@@ -287,10 +287,10 @@ dmatrix_t *dmat_add(dmatrix_t *A, dmatrix_t *B)
 }
 
 
-imatrix_t *imat_add(imatrix_t *A, imatrix_t *B) 
+imatrix_t *imat_add(imatrix_t *A, imatrix_t *B)
 
 { imatrix_t *C ;
-  int s ;
+//  int s ;
   int i, j ;
 
   if ((*A).l != (*B).l || (*A).c != (*B).c) {
@@ -298,7 +298,7 @@ imatrix_t *imat_add(imatrix_t *A, imatrix_t *B)
   }
   C = (imatrix_t *)malloc(sizeof(imatrix_t)) ;
   imat_alloc(C,(*A).l,(*A).c) ;
-  
+
 
   for (i = 1 ; i <= (*C).l ; i++) {
     for (j = 1 ; j <= (*C).c ; j++) {
@@ -309,10 +309,10 @@ imatrix_t *imat_add(imatrix_t *A, imatrix_t *B)
 }
 
 
-matrix_t *mat_sub(matrix_t *A, matrix_t *B) 
+matrix_t *mat_sub(matrix_t *A, matrix_t *B)
 
 { matrix_t *C ;
-  float s ;
+//  float s ;
   int i, j ;
 
   if ((*A).l != (*B).l || (*A).c != (*B).c) {
@@ -330,10 +330,10 @@ matrix_t *mat_sub(matrix_t *A, matrix_t *B)
 }
 
 
-dmatrix_t *dmat_sub(dmatrix_t *A, dmatrix_t *B) 
+dmatrix_t *dmat_sub(dmatrix_t *A, dmatrix_t *B)
 
 { dmatrix_t *C ;
-  double s ;
+//  double s ;
   int i, j ;
 
   if ((*A).l != (*B).l || (*A).c != (*B).c) {
@@ -351,10 +351,10 @@ dmatrix_t *dmat_sub(dmatrix_t *A, dmatrix_t *B)
 }
 
 
-imatrix_t *imat_sub(imatrix_t *A, imatrix_t *B) 
+imatrix_t *imat_sub(imatrix_t *A, imatrix_t *B)
 
 { imatrix_t *C ;
-  int s ;
+//  int s ;
   int i, j ;
 
   if ((*A).l != (*B).l || (*A).c != (*B).c) {
@@ -446,7 +446,7 @@ float imat_norm(imatrix_t *A)
 matrix_t *mat_normalize(matrix_t *A)
 
 { matrix_t *B ;
-  float n ; 
+  float n ;
   int i, j ;
 
   B = (matrix_t *)malloc(sizeof(matrix_t)) ;
@@ -465,7 +465,7 @@ matrix_t *mat_normalize(matrix_t *A)
 dmatrix_t *dmat_normalize(dmatrix_t *A)
 
 { dmatrix_t *B ;
-  double n ; 
+  double n ;
   int i, j ;
 
   B = (dmatrix_t *)malloc(sizeof(dmatrix_t)) ;
@@ -484,7 +484,7 @@ dmatrix_t *dmat_normalize(dmatrix_t *A)
 matrix_t *imat_normalize(imatrix_t *A)
 
 { matrix_t *B ;
-  float n ; 
+  float n ;
   int i, j ;
 
   B = (matrix_t *)malloc(sizeof(matrix_t)) ;
@@ -500,7 +500,7 @@ matrix_t *imat_normalize(imatrix_t *A)
 }
 
 
-matrix_t *mat_transpose(matrix_t *A) 
+matrix_t *mat_transpose(matrix_t *A)
 
 { matrix_t *B ;
   int i, j ;
@@ -589,7 +589,7 @@ matrix_t *cross_product(matrix_t *A, matrix_t *B)
   free_matrix(E.m,1,E.l,1,E.c) ;
 
   return(D) ;
-}  
+}
 
 
 dmatrix_t *dcross_product(dmatrix_t *A, dmatrix_t *B)
@@ -630,7 +630,7 @@ dmatrix_t *dcross_product(dmatrix_t *A, dmatrix_t *B)
   free_dmatrix(E.m,1,E.l,1,E.c) ;
 
   return(D) ;
-}  
+}
 
 
 double determinant(dmatrix_t *A)
@@ -643,14 +643,14 @@ double determinant(dmatrix_t *A)
      nrerror("MATRIX.H: Erroneous matrix size") ;
    } else if ((*A).l != (*A).c) {
      nrerror("MATRIX.H: Not a square matrix") ;
-   } else if ((*A).l == 1) { 
+   } else if ((*A).l == 1) {
       det = (*A).m[1][1] ;
    } else if ((*A).l == 2) {
       det = (*A).m[1][1]*(*A).m[2][2] - (*A).m[2][1]*(*A).m[1][2] ;
    } else {
       det = 0 ;
       for (j1 = 1 ; j1 <= (*A).l ; j1++) {
-         dmat_alloc(&M, (*A).l - 1,(*A).l - 1) ;  
+         dmat_alloc(&M, (*A).l - 1,(*A).l - 1) ;
          for (i = 2 ; i <= (*A).l ; i++) {
             j2 = 1 ;
             for (j = 1 ;j <= (*A).l ; j++) {

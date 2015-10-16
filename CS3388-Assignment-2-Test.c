@@ -10,10 +10,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix.h"
+#include "vertex_processor.h"
 
-#define Ex 10.0
-#define Ey 10.0
-#define Ez 10.0
+#define Ex 50.0
+#define Ey 50.0
+#define Ez 40.0
 
 #define Gx 0.0
 #define Gy 0.0
@@ -224,6 +225,45 @@ camera_t *build_camera(camera_t *Camera, window_t *Window) {
     return(Camera) ;
 }
 
+void renderWiremesh(Display* d, Window* w, int* s, camera_t* Camera) {
+    int num_polys;
+    char* polyfile_name = vertexProcessor(&num_polys);
+    FILE* fp = fopen(polyfile_name, "r");
+
+    if(!fp) {
+        printf("Couldn't open %s\n", polyfile_name);
+        exit(EXIT_FAILURE);
+    }
+
+    int i;
+    for(i = 0; i < num_polys; i++) {
+
+        dmatrix_t p1, p2, p3;
+        dmat_alloc(&p1,4,1);
+        dmat_alloc(&p2,4,1);
+        dmat_alloc(&p3,4,1);
+
+        //there are 12 values/line to scan. w = 1.0 is discarded
+        fscanf(fp, "%lf %lf %lf %*f %lf %lf %lf %*f %lf %lf %lf %*f",
+               &p1.m[1][1], &p1.m[2][1], &p1.m[3][1],
+               &p2.m[1][1], &p2.m[2][1], &p2.m[3][1],
+               &p3.m[1][1], &p3.m[2][1], &p3.m[3][1]);
+
+        p1.m[4][1] = 1;
+        p2.m[4][1] = 1;
+        p3.m[4][1] = 1;
+
+        p1 = *projection_transform(dmat_mult(&(Camera->M),&p1));
+        p2 = *projection_transform(dmat_mult(&(Camera->M),&p2));
+        p3 = *projection_transform(dmat_mult(&(Camera->M),&p3));
+
+        XDrawLine(d,*w,DefaultGC(d,*s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p2.m[1][1], (int)p2.m[2][1]) ;
+        XDrawLine(d,*w,DefaultGC(d,*s),(int)p2.m[1][1],(int)p2.m[2][1],(int)p3.m[1][1], (int)p3.m[2][1]) ;
+        XDrawLine(d,*w,DefaultGC(d,*s),(int)p3.m[1][1],(int)p3.m[2][1],(int)p1.m[1][1], (int)p1.m[2][1]) ;
+    }
+    fclose(fp);
+}
+
 int main() {
 
     Display *d ;
@@ -274,7 +314,6 @@ int main() {
     while (1) {
         XNextEvent(d,&e) ;
         if (e.type == Expose) {
-
             p1 = *projection_transform(dmat_mult(&(Camera.M),&p1)) ;
             p2 = *projection_transform(dmat_mult(&(Camera.M),&p2)) ;
             p3 = *projection_transform(dmat_mult(&(Camera.M),&p3)) ;
@@ -285,6 +324,8 @@ int main() {
             XDrawLine(d,w,DefaultGC(d,s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p3.m[1][1],p3.m[2][1]) ;
 
             XDrawLine(d,w,DefaultGC(d,s),(int)p1.m[1][1],(int)p1.m[2][1],(int)p4.m[1][1],p4.m[2][1]) ;
+
+            renderWiremesh(d, &w, &s, &Camera);
         }
         if (e.type == KeyPress)
             break ;
